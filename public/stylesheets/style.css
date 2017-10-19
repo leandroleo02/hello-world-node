@@ -1,8 +1,11 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.app-container {
+  width: 800px;
+  margin: 0 auto;
 }
 
-a {
-  color: #00B7FF;
+.app-container .images {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 10px 0;
 }
