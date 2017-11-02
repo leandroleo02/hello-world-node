@@ -1,0 +1,60 @@
+---
+
+- hosts: di-node-app
+  become: yes
+
+  vars:
+    - repo_url: https://github.com/leandroleo02/hello-world-node.git
+    - app_path: "/var/local/mao-na-massa"
+    - app_name: hello-world-node
+    - service_file_path: /etc/systemd/system
+    - service_name: lrsilva.service
+
+  pre_tasks:
+    - name: Update apt cache if needed.
+      apt: update_cache=yes cache_valid_time=3600
+
+  tasks:
+    - name: Add Nodesource Keys
+      apt_key:
+        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+        state: present
+
+    - name: Add Nodesource Apt Sources
+      apt_repository:
+        repo: '{{ item }}'
+        state: present
+      with_items:
+        - 'deb https://deb.nodesource.com/node_6.x xenial main'
+        - 'deb-src https://deb.nodesource.com/node_6.x xenial main'
+
+    - name: Install nodejs and git.
+      apt: name={{item}} state=present update_cache=yes
+      with_items:
+        - nodejs
+        - git
+    
+    - name: Clone app from git
+      git: repo={{repo_url}} dest={{app_path}}/{{app_name}} update=yes
+
+    - name: Npm install app dependencies
+      command: npm install
+      args:
+        chdir: "{{app_path}}/{{app_name}}"
+
+    - name: Copy service file to system diretory
+      copy: src={{app_path}}/{{app_name}}/{{service_name}} dest={{service_file_path}}/ remote_src=true owner=root group=root
+
+    - name: "Set the user who will execute the service"
+      lineinfile:
+        path: "{{service_file_path}}/{{ service_name }}"
+        state: present
+        regexp: '^User=$'
+        line: User={{ ansible_ssh_user }}
+
+    - name: Start app service
+      systemd:
+        name: "{{service_name}}"
+        daemon_reload: yes
+        enabled: yes
+        state: started
