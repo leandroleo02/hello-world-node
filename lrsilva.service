@@ -5,8 +5,8 @@ After=network.target
 [Service]
 Type=simple
 User=lrsilva
-WorkingDirectory=/home/lrsilva/mao-na-massa/hello-world-node
-ExecStart=/home/lrsilva/mao-na-massa/hello-world-node/startup.sh
+WorkingDirectory=/usr/local/mao-na-massa/hello-world-node
+ExecStart=/usr/local/mao-na-massa/hello-world-node/startup.sh
 Restart=always
 
 [Install]
