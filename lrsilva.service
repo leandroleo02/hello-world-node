@@ -1,0 +1,12 @@
+[Unit]
+Description=Run Tyrion Service
+After=network.target
+
+[Service]
+Type=simple
+User=lrsilva
+WorkingDirectory=/home/lrsilva/mao-na-massa/hello-world-node
+ExecStart=/home/lrsilva/mao-na-massa/hello-world-node/startup.sh
+Restart=always
+
+[Install]
