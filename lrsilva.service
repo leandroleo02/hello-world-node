@@ -1,12 +1,11 @@
 [Unit]
 Description=Run Tyrion Service
-After=network.target
 
 [Service]
-Type=simple
 User=lrsilva
 WorkingDirectory=/var/local/mao-na-massa/hello-world-node
-ExecStart=/var/local/mao-na-massa/hello-world-node/startup.sh
+ExecStart=/bin/bash startup.sh
 Restart=always
 
 [Install]
+WantedBy=multi-user.target
