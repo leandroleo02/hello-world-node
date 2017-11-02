@@ -2,7 +2,7 @@
 Description=Run Tyrion Service
 
 [Service]
-User=lrsilva
+User=
 WorkingDirectory=/var/local/mao-na-massa/hello-world-node
 ExecStart=/bin/bash startup.sh
 Restart=always
